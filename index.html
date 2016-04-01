@@ -1,0 +1,614 @@
+<html>
+<head>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <!-- Load the d3 library. -->
+  <script src="d3/d3.min.js" charset="utf-8"></script>
+  <script src="//d3js.org/d3.geo.projection.v0.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <style>
+    /* Put a border around the svg element so we can see the coordinate system better. */
+    body { font-family: "Open Sans"; } div { margin: 30px; }
+    svg { background-color: #f0f0f0; }  
+    .pneumonia-map {
+      margin-Best: 100px;
+    }
+
+    .graph1, .graph2 {
+      margin-top: 150px;
+      margin-left: 40px;
+      position: relative;
+    }
+
+    .graph2 {
+      margin-bottom: 200px;
+    }
+
+    text.label {
+      fill: #888;
+      font-size: x-small;
+      dominant-baseline: middle; 
+      text-anchor: middle;
+    }
+
+    .aligned-chart {
+      position: relative;
+      float: right;
+      margin-top: -60px;
+      margin-right: 10px;
+    }
+
+    .bottom-chart {
+      position: relative; 
+      float: right;
+      margin-top: -250px; 
+      margin-right: 10px;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      display: none; 
+    }
+
+    text {
+      font-size: 8; 
+      font-family: "Open Sans";
+    }
+
+    .title {
+      font-size: 12; 
+      fill: black;
+    }
+
+    .sector, .sector2 {
+      margin-bottom: -100px;
+      margin-left: 40px; 
+      font-size: 30px;
+    }
+
+    .sector2 {
+      margin-top: 150px; 
+    }
+
+    .the-story {
+      margin-top: -50px; 
+      margin-bottom: 100px; 
+    }
+
+    .top {
+      z-index: 100;
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+
+<div id="parent_map">
+  <div class="sector">Pneumonia Readmission and Physician Salary</div> 
+  <div class="graph1"></div> 
+  <div class="sector2">Heart Attack Readmission and Physician Salary</div> 
+  <div class="graph2"></div>
+
+  <!-- Description of our representation of info --> 
+  <div class="the-story">
+    <h2>The Scoring System</h2>
+    The algorithmic score of a state was computed by taking the linear of combination of the normalized [pneumonia or heart attack] median readmission rate and the normalized median salary of hospital doctors in the given state. Lower scores are better because doctors are likely being paid less than the national average and readmission rates are likely lower than the national average. Higher scores are worse because doctors are likely being paid more than the national average even though the readmission rates are likely higher than the national average. We weighted the readmission rate slightly more than the salary because we felt that the readmission rate is more indicative of the "goodness" score than the salary is.
+    </br></br>
+    A normalized value simply required dividing a state's data value by the national data value. A normalized score of 1, greater than 1, and less than 1 means that the state's value is equivalent to the national median, greater than the national median, and less than the national median, respectively.
+    </br></br>
+    With a normalized state salary <i>s</i> and a normalized [pneumonia or heart attack] readmission rate <i>r</i>, an algorithmic score was computed using the following formula:
+    </br></br>
+    <b>score = 0.4 * <i>s</i> + 0.6 * <i>r</i></b>
+    </br></br>
+
+    <h2>Results</h2>
+    Somewhat surprisingly, New Jersey had the worst scores for both pneumonia and heart attack. New Jersey is known for attracting the "best" doctors around the country, which justifies why their median salary is much higher than the national average.  However, even if the doctors perform their job well, external factors, such as stress and quality of life, may contribute to the high readmission rates. Other cultural and environmental factors may also contribute to the high readmission rates.
+    </br></br>
+    On the other hand, South Dakota and Montana had the best scores for pneumonia and for heart attack, respectively. Doctors are paid less in both states possibly due to the fact that they are remote states - the population densities are not very high. Again, possible factors for lower readmission rates may be lower stress levels and better air quality. Since the states are not densely populated, the air quality is likely to be much better than that of an east coast city. The lower salary and the lower readmission rates yield the good scores.
+  </div>
+
+</div>
+
+
+<script>
+
+var width  = 630,
+    height = 500,
+    padding = 20; 
+
+
+
+// Function to normalize data 
+var normalize = function (mean, data) {
+  return data / mean;
+};
+
+
+// Returns the pneumonia score given the normalized values of
+// readmission rate and of salary
+var pScore = function (rate, sal) {
+  var v = 0.4 * sal + 0.6 * rate;
+  return v;
+};
+
+
+// Returns the heart attack score given the normalized values of
+// readmission rate and of salary
+var hScore = function (rate, sal) {
+  var v = 0.4 * sal + 0.6 * rate;
+  return v;
+};
+
+// Returns the x,y coordinate center of a circle based upon state path coords
+var circle_middle = function (coords) {
+  total_coords = coords.length; 
+  var x_total = 0, 
+      y_total = 0 
+
+  for(var i = 0; i < coords.length; i++) {
+    x_total += coords[i][0];
+    y_total += coords[i][1]; 
+  }
+
+  return [x_total/total_coords, y_total/total_coords]; 
+}
+
+// Function to add the map name to the SVG element it resides in 
+function addMapTitle(svg, title) {
+  svg.append("text")
+        .attr("x", width/2)
+        .attr("y", padding)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .attr("class", "title")
+        .text(function() {
+          return title; 
+        }); 
+}
+
+
+// Creating the maps 
+var projection = d3.geo.albersUsa().scale(750).translate([width / 2, height / 2]);
+var path = d3.geo.path().projection(projection);
+var svg = d3.select(".graph1").append("svg")
+    .attr("width", width)
+    .attr("id", "map1")
+    .attr("height", height);
+
+addMapTitle(svg, "U.S. Heatmap Algorithmically Analyzing Pneumonia Readmissions and Physicians' Salaries Per State"); 
+
+var svg2 = d3.select(".graph2").append("svg")
+    .attr("width", width)
+    .attr("id", "map2")
+    .attr("height", height);
+var counties, states, stateStats;
+
+addMapTitle(svg2, "U.S. Heatmap Algorithmically Analyzing Heart Attack Readmissions and Physicians' Salaries Per State")
+
+// Color scale given a number
+var pScale = d3.scale.linear().domain([0.9, 1, 1.13]).range(["#1a9641", "#ffffbf", "#d7191c"]);
+var hScale = d3.scale.linear().domain([0.9, 1, 1.13]).range(["#1a9641", "#ffffbf", "#d7191c"]);
+
+// Load the US map and draw the state lines
+d3.json("us.json", function(error, shapes) {
+  states   = topojson.feature(shapes, shapes.objects.states).features;
+
+  // Draw the state lines
+  var statePaths = svg.append("g");
+  statePaths.selectAll("path").data(states).enter()
+            .append("path").attr("d", path)
+            .style("fill", "none").style("stroke", "#ccc");
+  var statePaths2 = svg2.append("g");
+  statePaths2.selectAll("path").data(states).enter()
+            .append("path").attr("d", path)
+            .style("fill", "none").style("stroke", "#ccc");            
+
+  // This json file maps the state id to the state name and abbreviation
+  d3.json("id_to_state_.json", function (error, stateIds) {
+
+    // This json file contains the state names, pneumonia readmission rates, 
+    // and heart attack readmission rates
+    d3.json("state_readmission_avgs.json", function (error, rateStateList) {
+
+      if (error) {
+        console.log("There was an error loading the readmission data.");
+      }
+
+      // This json file contains the median salary of hospital doctors
+      // for each town across all 50 states
+      d3.json("final_salaries.json", function (error, salStateList) {
+        if (error) {
+          console.log("There was an error loading the salary data.");
+        }
+
+        var salaryMeans = [];
+        var pRateMeans  = [];
+        var hRateMeans  = [];
+        var stateStats  = {};
+        var nationSalMean, nationalPrateMean, nationalHrateMean;
+        var bestP  = { "id": undefined, "value": undefined };
+        var worstP = { "id": undefined, "value": undefined };
+        var bestH  = { "id": undefined, "value": undefined };
+        var worstH = { "id": undefined, "value": undefined };
+
+        // Calculate the mean salary for each state
+        for (var stateIndex in salStateList) {
+          var townSalaries = [];
+          var stateObj = salStateList[stateIndex];
+          var townList = stateObj["state_towns"];
+
+          for (var townIndex in townList) {
+            var sal = townList[townIndex]["median_salary"].substring(1).replace(",", "");
+            townSalaries.push(sal);
+          }
+
+          var stateSalMean = d3.median(townSalaries);
+          if (stateSalMean) {
+            salaryMeans.push(stateSalMean);
+            stateStats[stateObj["state"]] = { "salary": stateSalMean };
+          }
+        }
+
+        // Calculate the national mean salary of hospital doctors
+        nationSalMean = d3.median(salaryMeans);
+        console.log("National salary mean: " + nationSalMean); 
+
+
+        // Calculate the normalized salary for each state
+        for (var state in stateStats) {
+          stateStats[state]["norm_salary"] = normalize(nationSalMean, stateStats[state]["salary"]);
+        }
+
+        // Collect the state means for pneumonia and heart attack readmission rates
+        for (var stateIndex in rateStateList) {
+          var state = rateStateList[stateIndex];
+          var pVal  = state["pneumonia"];
+          var hVal  = state["heart_attack"];
+
+          pRateMeans.push(pVal);
+          hRateMeans.push(hVal);
+          if (stateStats[state["name"]]) {
+            stateStats[state["name"]]["pRate"] = pVal;
+            stateStats[state["name"]]["hRate"] = hVal;
+          }
+        }
+
+        // Calculate the national median readmission rate for pneumonia and for heart attack
+        nationalPrateMean = d3.median(pRateMeans);
+        console.log("Pneumonia median: " + nationalPrateMean); 
+        nationalHrateMean = d3.median(hRateMeans);
+        console.log("Heart attack median: " + nationalHrateMean); 
+
+        // Calculate the normalized readmission rate for pneumonia
+        for (var state in stateStats) {
+          stateStats[state]["norm_pRate"] = normalize(nationalPrateMean, stateStats[state]["pRate"]);
+        }
+
+        // Calculate the normalized readmission rate for heart attack
+        for (var state in stateStats) {
+          stateStats[state]["norm_hRate"] = normalize(nationalHrateMean, stateStats[state]["hRate"]);
+        }
+
+
+
+
+
+        // Calculate the pScore and hScore for each state
+        // Compute the best and worst scores while this is happening
+        for (var state in stateStats) {
+
+          // Calculate the best pScore
+          var v         = pScore(stateStats[state]["norm_pRate"], stateStats[state]["norm_salary"]);
+          var currBest  = bestP["value"];
+          var currWorst = worstP["value"];
+          stateStats[state]["pScore"] = v;
+
+          if ((currBest && v < currBest) || !currBest) {
+            bestP["name"]  = state;
+            bestP["value"] = v;
+          }
+          if ((currWorst && v > currWorst) || !currWorst) {
+            worstP["name"]  = state;
+            worstP["value"] = v;
+          }  
+
+          // Calculate the worst pScore
+          var v         = hScore(stateStats[state]["norm_hRate"], stateStats[state]["norm_salary"]);
+          var currBest  = bestH["value"];
+          var currWorst = worstH["value"]; 
+          stateStats[state]["hScore"] = v;
+
+          if ((currBest && v < currBest) || !currBest) {
+            bestH["name"]  = state;
+            bestH["value"] = v;
+          }
+          if ((currWorst && v > currWorst) || !currWorst) {
+            worstH["name"]  = state;
+            worstH["value"] = v;
+          }    
+        }
+
+        var isBestP  = function (state) { return bestP["name"] == state; };
+        var isWorstP = function (state) { return worstP["name"] == state; };
+        var isBestH  = function (state) { return bestH["name"] == state; };
+        var isWorstH = function (state) { return worstH["name"] == state; };
+
+        // Color the states based on the computed pneumonia stats
+        statePaths.selectAll("path")
+                  .style("fill", function (state) {
+                      var stateObj = stateIds[state.id];
+                      
+                      if (stateObj) {
+                        var stateName = stateObj["state"];
+                        var sStats = stateStats[stateName];
+                        
+                        if (sStats) {
+                          var pVal = sStats["pScore"];
+                          return pScale(pVal);
+                        } else {
+                          return "#ffffbf";
+                        }
+                      }
+                   })
+                  .style("stroke", function (state) {
+                      var stateObj = stateIds[state.id];
+                      // NOTE, discrepencies were used to originally understand which states were best and worst 
+                      if (stateObj && isBestP(stateObj["state"])) {
+                        //var middle = circle_middle(state.geometry.coordinates[0]); 
+                        svg.append("circle")
+                          .attr("cx", 280)
+                          .attr("cy", 175)
+                          .attr("class", "top")
+                          .attr("stroke", "black")
+                          .attr("fill", "none")
+                          .attr("r", 50);
+                        return "#ccc";
+                      } else if (stateObj && isWorstP(stateObj["state"])) {
+                        svg.append("circle")
+                          .attr("cx", 530)
+                          .attr("cy", 204)
+                          .attr("class", "top")
+                          .attr("stroke", "black")
+                          .attr("fill", "none")
+                          .attr("r", 20);
+                        return "#ccc";
+                      } else {
+                        return "#ccc";
+                      }
+                  })
+                  .style("stroke-width", function (state) {
+                      var stateObj = stateIds[state.id];
+                      if (stateObj && (isBestP(stateObj["state"]) || isWorstP(stateObj["state"])))
+                        return 1; // Was previously 3 
+                  });
+
+        // Color the states based on computed heart attack stats
+        statePaths2.selectAll("path")
+                  .style("fill", function (state) {
+                      var stateObj = stateIds[state.id]; 
+                      if (stateObj) {
+                        var sStats = stateStats[stateObj["state"]]; 
+                        if (sStats) {
+                          var hVal = sStats["hScore"];
+                          return hScale(hVal);
+                        } else {
+                          return "#ffffbf";
+                        }
+                      }
+                   })
+                  .style("stroke", function (state) {
+                      var stateObj = stateIds[state.id];
+                      // NOTE, discrepencies were used to originally understand which states were best and worst 
+                      if (stateObj && isBestH(stateObj["state"])) {
+                        svg2.append("circle")
+                          .attr("cx", 200)
+                          .attr("cy", 130)
+                          .attr("class", "top")
+                          .attr("stroke", "black")
+                          .attr("fill", "none")
+                          .attr("r", 60);
+                        return "#ccc";
+                      } else if (stateObj && isWorstH(stateObj["state"])) {
+                        svg2.append("circle")
+                          .attr("cx", 530)
+                          .attr("cy", 204)
+                          .attr("class", "top")
+                          .attr("stroke", "black")
+                          .attr("fill", "none")
+                          .attr("r", 20);
+                        return "#ccc";
+                      } else {
+                        return "#ccc";
+                      }
+
+                  })
+                  .style("stroke-width", function (state) {
+                      var stateObj = stateIds[state.id];
+                      if (stateObj && (isBestH(stateObj["state"]) || isWorstH(stateObj["state"])))
+                        return 1; // Was previously 3 
+                  });  
+      });
+    });
+  });
+});
+
+
+
+
+// Taken from the above calculations 
+var national_stats = { "pneumonia": 18.6, "heart_attack": 19.4, "salary": 199418 }
+
+
+// For the purposes of graphs
+var margin = { top: 40, right: 20, bottom: 70, left: 70 }
+width = 450 - margin.left - margin.right; 
+height = 300 - margin.top - margin.bottom; 
+
+
+// In general, bar charts were generated via class notes and through cross-referencing class notes 
+// and this example: 
+// https://bl.ocks.org/mbostock/3885304
+
+/*
+  bins is the array of JSON values 
+  width          - width value 
+  height         - height value 
+  margin         - margin values 
+  class_name     - type of chart type 
+  graph_name     - the type of graph 
+  type_of_data   - "pneumonia" or "heart_attack"
+  national_stats - national %'s/salary info
+  bar_color      - the color of the chart's bars  
+  title          - the title of the chart 
+*/ 
+
+function town_histogram(JSON, width, height, margin, class_name, graph_name, type_of_data, national_stats, bar_color, title) {
+
+  d3.json(JSON, function(error, bins) {
+    console.log(bins); 
+
+    if (error) {
+      console.log("There was an error!"); 
+    }
+
+    // Create an SVG element with proper credentials, w/inner g that is offset accordingly 
+
+    var bod = d3.select(graph_name).append("svg")
+      .attr("height", height + margin.top + margin.bottom)
+      .attr("width", width + margin.left + margin.right)
+      .attr("class", class_name); 
+
+    bod.append("text")
+      .attr("class", "title")
+      .attr("x", width/2 + margin.left)
+      .attr("y", margin.top/2)
+      .attr("text-anchor", "middle")
+      .attr("alignment-baseline", "middle")
+      .text(function() {
+        return title; 
+      }); 
+
+
+    var svg = bod.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
+
+    // Create x scaling function 
+    var x = d3.scale.ordinal()
+      .domain(bins.map(function(d) { return d["town"] }))
+      .rangeRoundBands([0, width], 0.1); 
+
+
+    // Create y scaling function 
+    var y = d3.scale.linear()
+              .domain([0.8, 1.40]).range([height, 0]);
+
+    // Create xAxis function 
+    var xAxis = d3.svg.axis().scale(x).orient("bottom"); 
+
+    // Creating yAxis function 
+    var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10); 
+
+
+
+    // Establish x-axis 
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)"); 
+
+    // Establish y-axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+      .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -40)
+        .attr("x", -height/2 + margin.top)
+        .style("text-anchor", "end")
+        .text("Algorithm Score")
+
+    // Function to get algo score w/in the scope of this function 
+    function getAlgoScore(d) {
+      var normalizedSalary = normalize(national_stats['salary'], d['salary']);
+      var normalizedData = normalize(national_stats[type_of_data], d[type_of_data]);  
+      return pScore(normalizedData, normalizedSalary); 
+    }
+
+    // Make bars 
+    svg.selectAll(".bar")
+        .data(bins)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d["town"]); })
+        .attr("width", x.rangeBand())
+        .attr("y", function(d) {
+          return y(getAlgoScore(d));        
+        })
+        .attr("height", function(d) {
+          return height - y(getAlgoScore(d)); 
+        })
+        .attr("fill", bar_color); 
+
+  }); 
+
+
+}; 
+
+
+town_histogram("NJ_Hospitals.json", width, 
+               height, margin, 
+               "aligned-chart", 
+               ".graph1", 
+               "pneumonia",
+               national_stats,
+               "#D82122",
+               "New Jersey Algorithmic Scores for Pneumonia Readmissions"); 
+
+// To ensure this loads later than the first for proper formatting 
+setTimeout(function() { town_histogram("SD_Hospitals.json", width, 
+                        height, margin, 
+                        "bottom-chart", 
+                        ".graph1", 
+                        "pneumonia",
+                        national_stats,
+                        "#028B33",
+                        "South Dakota Algorithmic Scores for Pneumonia Readmissions"); 
+                      }, 250); 
+
+town_histogram("NJ_Hospitals.json", width, 
+               height, margin, 
+               "aligned-chart", 
+               ".graph2", 
+               "heart_attack",
+               national_stats,
+               "#D20009",
+               "New Jersey Algorithmic Scores for Heart Attack Readmissions"); 
+
+// To ensure this loads later than the first for proper formatting 
+setTimeout(function() { town_histogram("MT_Hospitals.json", width, 
+                        height, margin, 
+                        "bottom-chart", 
+                        ".graph2", 
+                        "heart_attack",
+                        national_stats,
+                        "#189440",
+                        "Montana Algorithmic Scores for Heart Attack Readmissions"); 
+                      }, 250);  
+
+
+
+</script>
+</body>
+</html>

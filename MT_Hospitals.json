@@ -1,0 +1,42 @@
+[
+	{
+		"town": "Billings",
+		"hosptial_name": "Billings Clinic Hosptial + St. Vincent Healthcare",
+		"heart_attack": 19.85, 
+		"salary": 184314
+	},
+	{
+		"town": "Bozeman",
+		"hosptial_name": "Deaconess",
+		"heart_attack": 16.3,
+		"salary": 168087
+	},
+	{
+		"town": "Butte",
+		"heart_attack": 19.4,
+		"salary": 168087
+	},
+	{
+		"town": "Great Falls",
+		"heart_attack": 18.0,
+		"salary": 182005
+	},
+	{
+		"town": "Helena",
+		"hosptial_name": "St. Peter's Hosptial",
+		"heart_attack": 16.4,
+		"salary": 168087
+	},
+	{
+		"town": "Kalispell",
+		"hosptial_name": "Kalispell Regional Medical Center",
+		"heart_attack": 18.9,
+		"salary": 182005
+	},
+	{
+		"town": "Missoula",
+		"hosptial_name": "Community Medical Center Inc.",
+		"heart_attack": 17.55,
+		"salary": 168087
+	}
+]

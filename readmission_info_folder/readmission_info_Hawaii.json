@@ -1,0 +1,1 @@
+[{"state": "Hawaii", "hospitals": [{"hospital_town": "HONOLULU", "pneumonia": [18.3, 17.7], "heart_failure": [23.5, 22.9], "heart_attack": []}, {"hospital_town": "KAILUA", "pneumonia": [19.2, 17.7], "heart_failure": [26.0, 22.9], "heart_attack": [22.0, 19.8]}, {"hospital_town": "HONOLULU", "pneumonia": [17.6, 17.7], "heart_failure": [23.2, 22.9], "heart_attack": [20.7, 19.8]}]}]

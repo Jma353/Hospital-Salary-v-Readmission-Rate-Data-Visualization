@@ -1,0 +1,135 @@
+[
+	{ 
+		"town": "Atlantic City",
+		"hospital_name": "Atlanticare Regional Medical Center",
+		"pneumonia": 19.9,
+		"heart_attack": 20.9,
+		"salary": 225963
+	},
+	{
+		"town": "Bayonne",
+		"hospital_name": "Bayonne Hospital Center",
+		"pneumonia": 19.2,
+		"heart_attack": 21.3,
+		"salary": 247522
+	},
+	{
+		"town": "Camden",
+		"hospital_name": "Cooper University Hospital",
+		"pneumonia": 21.9,
+		"heart_attack": 22.1,
+		"salary": 220988
+	},
+	{
+		"town": "East Orange",
+		"hospital_name": "East Orange General Hospital",
+		"pneumonia": 25.1,
+		"heart_attack": 22.2,
+		"salary": 247522
+	},
+	{
+		"town": "Edison",
+		"hospital_name": "John F. Kennedy Medical Center",
+		"pneumonia": 18.4,
+		"heart_attack": 21.9,
+		"salary": 247522
+	},
+	{
+		"town": "Elizabeth", 
+		"hospital_name": "Trinta's Regional Medical Center",
+		"pneumonia": 19.9,
+		"heart_attack": 22.1,
+		"salary": 247522
+	},
+	{ 
+		"town": "Hackensack", 
+		"hospital_name": "Hackensack University Medical Center",
+		"pneumonia": 20.3,
+		"heart_attack": 21.3,
+		"salary": 240217
+	},
+	{
+		"town": "Hoboken",
+		"hospital_name": "Hoboken University Medical Center",
+		"pneumonia": 21.3,
+		"heart_attack": 19.3,
+		"salary": 247522
+	},
+	{
+		"town": "Jersey City",
+		"hospital_name": "Jersey City Medical Center",
+		"pneumonia": 20.5, 
+		"heart_attack": 24.3,
+		"salary": 247522
+	},
+	{
+		"town": "Lakewood",
+		"hospital_name": "Kimball Medical Center",
+		"pneumonia": 22.7,
+		"heart_attack": 22.3,
+		"salary": 247522
+	},
+	{
+		"town": "New Brunswick",
+		"hospital_name": "Robert Wood Johnson University Hospital",
+		"pneumonia": 21.5,
+		"heart_attack": 20.2,
+		"salary": 247522
+	},
+	{
+		"town": "Newark",
+		"hospital_name": "UMDNJ University Hospital",
+		"pneumonia": 19.6,
+		"heart_attack": 22.1,
+		"salary": 247522
+	},
+	{
+		"town": "Newark",
+		"hospital_name": "St. Michaels Medical Center",
+		"pneumonia": 22.4, 
+		"heart_attack": 27.4,
+		"salary": 247522
+	},
+	{
+		"town": "Passaic",
+		"hospital_name": "St. Mary's Hospital",
+		"pneumonia": 21.3,
+		"heart_attack": 19.9,
+		"salary": 240217
+	},
+	{
+		"town": "Paterson",
+		"hospital_name": "St. Joseph's Regional Medical Center",
+		"pneumonia": 21.8, 
+		"heart_attack": 22.0,
+		"salary": 240217
+	},
+	{
+		"town": "Perth Amboy",
+		"hospital_name": "Raritan Bay Medical Center",
+		"pneumonia": 20.7,
+		"heart_attack": 23.7,
+		"salary": 247522
+	},
+	{
+		"town": "Toms River",
+		"hospital_name": "Community Medical Hospital",
+		"pneumonia": 18.2,
+		"heart_attack": 22.8,
+		"salary": 225963
+	},
+	{
+		"town": "Trenton",
+		"hospital_name": "St. Francis Medical Center",
+		"pneumonia": 19.0,
+		"heart_attack": 22.0,
+		"salary": 247522
+	},
+	{
+		"town": "Vineland",
+		"hospital_name": "South Jersey Healthcare Regional Medical Center",
+		"pneumonia": 17.9,
+		"heart_attack": 21.1,
+		"salary": 230602
+	}
+]

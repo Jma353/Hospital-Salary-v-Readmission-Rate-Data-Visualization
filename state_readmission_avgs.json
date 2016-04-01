@@ -1,0 +1,330 @@
+[
+    {
+        "name": "Alabama",
+        "abbreviation": "AL",
+        "pneumonia": 18.6,
+        "heart_attack": 19.7
+    },
+    {
+        "name": "Alaska",
+        "abbreviation": "AK",
+        "pneumonia": 17.4,
+        "heart_attack": 18.6
+    },
+    {
+        "name": "American Samoa",
+        "abbreviation": "AS"
+    },
+    {
+        "name": "Arizona",
+        "abbreviation": "AZ",
+        "pneumonia": 18.7,
+        "heart_attack": 19.5
+    },
+    {
+        "name": "Arkansas",
+        "abbreviation": "AR",
+        "pneumonia": 19.0,
+        "heart_attack": 20.2
+    },
+    {
+        "name": "California",
+        "abbreviation": "CA",
+        "pneumonia": 18.3,
+        "heart_attack": 19.3
+    },
+    {
+        "name": "Colorado",
+        "abbreviation": "CO",
+        "pneumonia": 17.7,
+        "heart_attack": 18.7 
+    },
+    {
+        "name": "Connecticut",
+        "abbreviation": "CT",
+        "pneumonia": 19.0,
+        "heart_attack": 19.9
+    },
+    {
+        "name": "Delaware",
+        "abbreviation": "DE",
+        "pneumonia": 18.8, 
+        "heart_attack": 18.2
+    },
+    {
+        "name": "Florida",
+        "abbreviation": "FL",
+        "pneumonia": 18.6,
+        "heart_attack": 19.5
+    },
+    {
+        "name": "Georgia",
+        "abbreviation": "GA",
+        "pneumonia": 18.5,
+        "heart_attack": 18.8
+    },
+    {
+        "name": "Guam",
+        "abbreviation": "GU"
+    },
+    {
+        "name": "Hawaii",
+        "abbreviation": "HI",
+        "pneumonia": 17.7,
+        "heart_attack": 19.8
+    },
+    {
+        "name": "Idaho",
+        "abbreviation": "ID",
+        "pneumonia": 16.5,
+        "heart_attack": 17.7
+    },
+    {
+        "name": "Illinois",
+        "abbreviation": "IL",
+        "pneumonia": 19.4,
+        "heart_attack": 20.1
+    },
+    {
+        "name": "Indiana",
+        "abbreviation": "IN",
+        "pneumonia": 18.1,
+        "heart_attack": 18.9
+    },
+    {
+        "name": "Iowa",
+        "abbreviation": "IA",
+        "pneumonia": 17.9,
+        "heart_attack": 18.5
+    },
+    {
+        "name": "Kansas",
+        "abbreviation": "KS",
+        "pneumonia": 18.2,
+        "heart_attack": 18.9
+    },
+    {
+        "name": "Kentucky",
+        "abbreviation": "KY",
+        "pneumonia": 19.4,
+        "heart_attack": 20.5
+    },
+    {
+        "name": "Louisiana",
+        "abbreviation": "LA",
+        "pneumonia": 18.7,
+        "heart_attack": 19.9
+    },
+    {
+        "name": "Maine",
+        "abbreviation": "ME",
+        "pneumonia": 17.9,
+        "heart_attack": 18.5
+    },
+    {
+        "name": "Marshall Islands",
+        "abbreviation": "MH"
+    },
+    {
+        "name": "Maryland",
+        "abbreviation": "MD",
+        "pneumonia": 20.1,
+        "heart_attack": 20.7
+    },
+    {
+        "name": "Massachusetts",
+        "abbreviation": "MA",
+        "pneumonia": 19.2,
+        "heart_attack": 20.6
+    },
+    {
+        "name": "Michigan",
+        "abbreviation": "MI",
+        "pneumonia": 18.7,
+        "heart_attack": 19.6
+    },
+    {
+        "name": "Minnesota",
+        "abbreviation": "MN",
+        "pneumonia": 18.3,
+        "heart_attack": 18.8
+    },
+    {
+        "name": "Mississippi",
+        "abbreviation": "MS",
+        "pneumonia": 19.6,
+        "heart_attack": 20.1
+    },
+    {
+        "name": "Missouri",
+        "abbreviation": "MO",
+        "pneumonia": 18.9,
+        "heart_attack": 20.4
+    },
+    {
+        "name": "Montana",
+        "abbreviation": "MT",
+        "pneumonia": 17.4,
+        "heart_attack": 18.2
+    },
+    {
+        "name": "Nebraska",
+        "abbreviation": "NE",
+        "pneumonia": 18.4,
+        "heart_attack": 19.6
+    },
+    {
+        "name": "Nevada",
+        "abbreviation": "NV",
+        "pneumonia": 19.1,
+        "heart_attack": 19.3
+    },
+    {
+        "name": "New Hampshire",
+        "abbreviation": "NH",
+        "pneumonia": 17.7,
+        "heart_attack": 18.2
+    },
+    {
+        "name": "New Jersey",
+        "abbreviation": "NJ",
+        "pneumonia": 19.5,
+        "heart_attack": 21.0
+    },
+    {
+        "name": "New Mexico",
+        "abbreviation": "NM",
+        "pneumonia": 17.2,
+        "heart_attack": 18.2
+    },
+    {
+        "name": "New York",
+        "abbreviation": "NY",
+        "pneumonia": 19.8,
+        "heart_attack": 20.9
+    },
+    {
+        "name": "North Carolina",
+        "abbreviation": "NC",
+        "pneumonia": 18.8,
+        "heart_attack": 19.6
+    },
+    {
+        "name": "North Dakota",
+        "abbreviation": "ND",
+        "pneumonia": 18.2,
+        "heart_attack": 18.3
+    },
+    {
+        "name": "Northern Mariana Islands",
+        "abbreviation": "MP"
+    },
+    {
+        "name": "Ohio",
+        "abbreviation": "OH",
+        "pneumonia": 19.0,
+        "heart_attack": 19.9
+    },
+    {
+        "name": "Oklahoma",
+        "abbreviation": "OK",
+        "pneumonia": 18.6,
+        "heart_attack": 19.9
+    },
+    {
+        "name": "Oregon",
+        "abbreviation": "OR",
+        "pneumonia": 17.5,
+        "heart_attack": 18.1
+    },
+    {
+        "name": "Palau",
+        "abbreviation": "PW"
+    },
+    {
+        "name": "Pennsylvania",
+        "abbreviation": "PA",
+        "pneumonia": 18.6,
+        "heart_attack": 19.2
+    },
+    {
+        "name": "Puerto Rico",
+        "abbreviation": "PR"
+    },
+    {
+        "name": "Rhode Island",
+        "abbreviation": "RI",
+        "pneumonia": 20.0, 
+        "heart_attack": 20.1
+    },
+    {
+        "name": "South Carolina",
+        "abbreviation": "SC",
+        "pneumonia": 18.6,
+        "heart_attack": 19.5
+    },
+    {
+        "name": "South Dakota",
+        "abbreviation": "SD",
+        "pneumonia": 17.4,
+        "heart_attack": 18.7
+    },
+    {
+        "name": "Tennessee",
+        "abbreviation": "TN",
+        "pneumonia": 19.3,
+        "heart_attack": 20.3
+    },
+    {
+        "name": "Texas",
+        "abbreviation": "TX",
+        "pneumonia": 18.0, 
+        "heart_attack": 19.3
+    },
+    {
+        "name": "Utah",
+        "abbreviation": "UT",
+        "pneumonia": 16.8, 
+        "heart_attack": 17.6
+    },
+    {
+        "name": "Vermont",
+        "abbreviation": "VT",
+        "pneumonia": 17.4,
+        "heart_attack": 18.6
+    },
+    {
+        "name": "Virgin Islands",
+        "abbreviation": "VI"
+    },
+    {
+        "name": "Virginia",
+        "abbreviation": "VA",
+        "pneumonia": 19.2, 
+        "heart_attack": 20.0
+    },
+    {
+        "name": "Washington",
+        "abbreviation": "WA",
+        "pneumonia": 17.7,
+        "heart_attack": 18.5
+    },
+    {
+        "name": "West Virginia",
+        "abbreviation": "WV",
+        "pneumonia": 19.6, 
+        "heart_attack": 20.2
+    },
+    {
+        "name": "Wisconsin",
+        "abbreviation": "WI",
+        "pneumonia": 18.1, 
+        "heart_attack": 18.6
+    },
+    {
+        "name": "Wyoming",
+        "abbreviation": "WY",
+        "pneumonia": 17.8,
+        "heart_attack": 18.8
+    }
+]

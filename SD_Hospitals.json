@@ -1,0 +1,42 @@
+[
+	{
+		"town": "Aberdeen",
+		"hospital_name": "Avera St. Lukes",
+		"pneumonia": 17.6,
+		"heart_attack": 16.8,
+		"salary": 163321
+	},
+	{
+		"town": "Brookings",
+		"hospital_name": "Brookings Hospital",
+		"pneumonia": 16.6,
+		"heart_attack": 17.9,
+		"salary": 163636
+	},
+	{
+		"town": "Pierre", 
+		"hospital_name": "St. Mary's Hospital",
+		"pneumonia": 18.1, 
+		"salary": 163321 
+	},
+	{
+		"town": "Rapid City",
+		"hospital_name": "Rapid City Regional Hospital",
+		"pneumonia": 14.4,
+		"heart_attack": 20.3,
+		"salary": 191388
+	},
+	{
+		"town": "Sioux Falls",
+		"pneumonia": 18.0,
+		"heart_attack": 18.85,
+		"salary": 163636
+	},
+	{
+		"town": "Watertown",
+		"hospital_name": "Prairie Lakes Hospital",
+		"pneumonia": 17.2,
+		"heart_attack": 18.8,
+		"salary": 163636
+	}
+]
